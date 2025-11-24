@@ -1,0 +1,787 @@
+/* Fullscreen Slogan Banner */
+.fullscreen-slogan {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 20px;
+    font-size: 48px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+    text-shadow:
+        0 0 10px #00ff00,
+        0 0 20px #00ff00,
+        0 0 30px #00ff00,
+        0 0 40px #00ff00,
+        0 0 70px #00ff00,
+        0 0 80px #00ff00,
+        0 0 100px #00ff00,
+        0 0 150px #00ff00;
+    animation: glow 2s ease-in-out infinite alternate;
+    z-index: 1000;
+    letter-spacing: 4px;
+}
+
+@keyframes glow {
+    from {
+        text-shadow:
+            0 0 10px #00ff00,
+            0 0 20px #00ff00,
+            0 0 30px #00ff00,
+            0 0 40px #00ff00,
+            0 0 70px #00ff00,
+            0 0 80px #00ff00,
+            0 0 100px #00ff00,
+            0 0 150px #00ff00;
+    }
+
+    to {
+        text-shadow:
+            0 0 5px #00ff00,
+            0 0 10px #00ff00,
+            0 0 15px #00ff00,
+            0 0 20px #00ff00,
+            0 0 35px #00ff00,
+            0 0 40px #00ff00,
+            0 0 50px #00ff00,
+            0 0 75px #00ff00;
+    }
+}
+
+/* Exit Fullscreen Button */
+.exit-fullscreen-btn {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(37, 99, 235, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow:
+        0 4px 20px rgba(37, 99, 235, 0.5),
+        0 0 20px rgba(37, 99, 235, 0.3);
+    backdrop-filter: blur(10px);
+    gap: 10px;
+}
+
+.exit-fullscreen-btn:hover {
+    background: rgba(37, 99, 235, 1);
+    transform: scale(1.05);
+    box-shadow:
+        0 6px 30px rgba(37, 99, 235, 0.7),
+        0 0 30px rgba(37, 99, 235, 0.5);
+}
+
+.exit-fullscreen-btn:active {
+    transform: scale(0.95);
+}
+
+.exit-fullscreen-btn i {
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+/* Show elements only in fullscreen */
+.preview-content:fullscreen .fullscreen-slogan,
+.preview-content:-webkit-full-screen .fullscreen-slogan,
+.preview-content:fullscreen .exit-fullscreen-btn,
+.preview-content:-webkit-full-screen .exit-fullscreen-btn {
+    display: block;
+}
+
+/* Fullscreen Mode Styles */
+.preview-content:fullscreen {
+    background: #000;
+}
+
+.preview-content:fullscreen .preview-main-area {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+}
+
+.preview-content:fullscreen .preview-main-area img {
+    max-width: 100vw;
+    max-height: 100vh;
+    cursor: zoom-out;
+}
+
+.preview-content:fullscreen .preview-filmstrip,
+.preview-content:fullscreen .preview-controls,
+.preview-content:fullscreen .image-counter {
+    display: none;
+}
+
+/* Webkit fullscreen */
+.preview-content:-webkit-full-screen {
+    background: #000;
+}
+
+.preview-content:-webkit-full-screen .preview-main-area {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+}
+
+.preview-content:-webkit-full-screen .preview-main-area img {
+    max-width: 100vw;
+    max-height: 100vh;
+    cursor: zoom-out;
+}
+
+.preview-content:-webkit-full-screen .preview-filmstrip,
+.preview-content:-webkit-full-screen .preview-controls,
+.preview-content:-webkit-full-screen .image-counter {
+    display: none;
+}
+
+/* Image cursor hint */
+.preview-main-area img {
+    cursor: zoom-in;
+}
+
+.preview-main-area img:active {
+    cursor: grabbing;
+}
+
+/* Preview Content */
+.preview-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+.preview-main-area {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.preview-main-area img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.preview-content video {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.preview-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+}
+
+.preview-text {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    overflow: auto;
+    background: white;
+    color: #333;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+.preview-audio {
+    width: 80%;
+}
+
+/* Enhanced Navigation Buttons */
+.preview-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(37, 99, 235, 0.9);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.preview-nav-btn:hover {
+    background: rgba(37, 99, 235, 1);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.6);
+}
+
+.preview-nav-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.preview-nav-btn.prev {
+    left: 20px;
+}
+
+.preview-nav-btn.next {
+    right: 20px;
+}
+
+/* Enhanced Filmstrip */
+.preview-filmstrip {
+    height: 120px;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 12px;
+    overflow-x: auto;
+    z-index: 20;
+    border-top: 2px solid rgba(37, 99, 235, 0.3);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.filmstrip-item {
+    height: 90px;
+    width: 90px;
+    min-width: 90px;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid transparent;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.filmstrip-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0) 0%, rgba(37, 99, 235, 0.2) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.filmstrip-item:hover {
+    opacity: 0.8;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.filmstrip-item:hover::before {
+    opacity: 1;
+}
+
+.filmstrip-item.active {
+    opacity: 1;
+    border-color: #3b82f6;
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(59, 130, 246, 0.5);
+}
+
+.filmstrip-item.active::before {
+    opacity: 1;
+}
+
+.filmstrip-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Scrollbar for filmstrip */
+.preview-filmstrip::-webkit-scrollbar {
+    height: 8px;
+}
+
+.preview-filmstrip::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.preview-filmstrip::-webkit-scrollbar-thumb {
+    background: rgba(37, 99, 235, 0.5);
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.preview-filmstrip::-webkit-scrollbar-thumb:hover {
+    background: rgba(37, 99, 235, 0.8);
+}
+
+/* Enhanced Controls */
+.preview-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 20;
+    display: flex;
+    gap: 12px;
+}
+
+.control-btn {
+    background: rgba(37, 99, 235, 0.9);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.control-btn:hover {
+    background: rgba(37, 99, 235, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.6);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+}
+
+.control-btn i {
+    font-size: 16px;
+}
+
+/* Image Counter */
+.image-counter {
+    position: absolute;
+    bottom: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    overflow: auto;
+    background: white;
+    color: #333;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+.preview-audio {
+    width: 80%;
+}
+
+/* Enhanced Navigation Buttons */
+.preview-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(37, 99, 235, 0.9);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.preview-nav-btn:hover {
+    background: rgba(37, 99, 235, 1);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.6);
+}
+
+.preview-nav-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.preview-nav-btn.prev {
+    left: 20px;
+}
+
+.preview-nav-btn.next {
+    right: 20px;
+}
+
+/* Enhanced Filmstrip */
+.preview-filmstrip {
+    height: 120px;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 12px;
+    overflow-x: auto;
+    z-index: 20;
+    border-top: 2px solid rgba(37, 99, 235, 0.3);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.filmstrip-item {
+    height: 90px;
+    width: 90px;
+    min-width: 90px;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid transparent;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.filmstrip-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0) 0%, rgba(37, 99, 235, 0.2) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.filmstrip-item:hover {
+    opacity: 0.8;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.filmstrip-item:hover::before {
+    opacity: 1;
+}
+
+.filmstrip-item.active {
+    opacity: 1;
+    border-color: #3b82f6;
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(59, 130, 246, 0.5);
+}
+
+.filmstrip-item.active::before {
+    opacity: 1;
+}
+
+.filmstrip-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Scrollbar for filmstrip */
+.preview-filmstrip::-webkit-scrollbar {
+    height: 8px;
+}
+
+.preview-filmstrip::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.preview-filmstrip::-webkit-scrollbar-thumb {
+    background: rgba(37, 99, 235, 0.5);
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.preview-filmstrip::-webkit-scrollbar-thumb:hover {
+    background: rgba(37, 99, 235, 0.8);
+}
+
+/* Enhanced Controls */
+.preview-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 20;
+    display: flex;
+    gap: 12px;
+}
+
+.control-btn {
+    background: rgba(37, 99, 235, 0.9);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.control-btn:hover {
+    background: rgba(37, 99, 235, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.6);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+}
+
+.control-btn i {
+    font-size: 16px;
+}
+
+/* Image Counter */
+.image-counter {
+    position: absolute;
+    bottom: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    z-index: 15;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .preview-nav-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .preview-nav-btn.prev {
+        left: 10px;
+    }
+
+    .preview-nav-btn.next {
+        right: 10px;
+    }
+
+    .preview-filmstrip {
+        height: 100px;
+        padding: 10px 15px;
+    }
+
+    .filmstrip-item {
+        height: 70px;
+        width: 70px;
+        min-width: 70px;
+    }
+
+    .control-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .preview-controls {
+        top: 10px;
+        right: 10px;
+    }
+
+    .fullscreen-slogan {
+        font-size: 28px;
+        padding: 12px;
+        letter-spacing: 2px;
+    }
+
+    .exit-fullscreen-btn {
+        bottom: 20px;
+        right: 20px;
+        padding: 14px 28px;
+        font-size: 16px;
+        min-width: 140px;
+        min-height: 50px;
+        touch-action: manipulation;
+    }
+
+    /* Larger touch targets for mobile */
+    .preview-nav-btn {
+        min-width: 56px;
+        min-height: 56px;
+        touch-action: manipulation;
+    }
+
+    .filmstrip-item {
+        min-width: 80px;
+        min-height: 80px;
+        touch-action: manipulation;
+    }
+
+    /* Better spacing on mobile */
+    .preview-main-area {
+        padding: 10px;
+    }
+
+    .image-counter {
+        bottom: 120px;
+        font-size: 16px;
+        padding: 10px 24px;
+    }
+}
+
+/* Extra small devices (phones in portrait) */
+@media (max-width: 480px) {
+    .fullscreen-slogan {
+        font-size: 20px;
+        padding: 10px;
+        letter-spacing: 1px;
+    }
+
+    .exit-fullscreen-btn {
+        bottom: 15px;
+        right: 15px;
+        padding: 12px 20px;
+        font-size: 14px;
+        min-width: 120px;
+    }
+
+    .exit-fullscreen-btn i {
+        font-size: 16px;
+    }
+
+    .preview-nav-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+    }
+
+    .preview-filmstrip {
+        height: 80px;
+        padding: 8px 10px;
+    }
+
+    .filmstrip-item {
+        height: 60px;
+        width: 60px;
+        min-width: 60px;
+    }
+}
+
+/* Landscape mode on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .fullscreen-slogan {
+        font-size: 24px;
+        padding: 8px;
+    }
+
+    .exit-fullscreen-btn {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .preview-filmstrip {
+        height: 80px;
+    }
+
+    .filmstrip-item {
+        height: 60px;
+        width: 60px;
+        min-width: 60px;
+    }
+
+    .image-counter {
+        bottom: 100px;
+        font-size: 14px;
+    }
+}
+
+/* Prevent text selection on touch devices */
+.preview-content,
+.fullscreen-slogan,
+.exit-fullscreen-btn,
+.preview-nav-btn,
+.filmstrip-item {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth scrolling for filmstrip on touch devices */
+.preview-filmstrip {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+/* Better touch feedback */
+.exit-fullscreen-btn:active,
+.preview-nav-btn:active,
+.control-btn:active,
+.filmstrip-item:active {
+    opacity: 0.8;
+}

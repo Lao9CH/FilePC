@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WebOS File Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="preview.css">
+    <link rel="stylesheet" href="thumbnail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div id="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icon" onclick="openFileManager()">
+            <div class="icon-img"><i class="fa-solid fa-computer"></i></div>
+            <div class="icon-label">My Computer</div>
+        </div>
+        <div class="desktop-icon" onclick="window.open('https://www.zhixue.com', '_blank')">
+            <div class="icon-img"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="icon-label">智学网</div>
+        </div>
+        <div class="desktop-icon" onclick="openFolder('5分钟')">
+            <div class="icon-img"><i class="fa-solid fa-clock"></i></div>
+            <div class="icon-label">5分钟</div>
+        </div>
+        <div class="desktop-icon" onclick="openFolder('课件')">
+            <div class="icon-img"><i class="fa-solid fa-book-open"></i></div>
+            <div class="icon-label">课件</div>
+        </div>
+
+        <!-- Windows Container -->
+        <div id="windows-area"></div>
+    </div>
+
+    <!-- Taskbar -->
+    <div id="taskbar">
+        <div class="start-btn"><i class="fa-brands fa-windows"></i></div>
+        <div id="taskbar-apps"></div>
+        <div class="taskbar-right">
+            <div id="clock">12:00</div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Templates -->
+    <template id="window-template">
+        <div class="window">
+            <div class="window-header">
+                <div class="window-title">
+                    <i class="fa-regular fa-folder"></i> <span>File Manager</span>
+                </div>
+                <div class="window-controls">
+                    <button class="win-btn minimize"><i class="fa-solid fa-minus"></i></button>
+                    <button class="win-btn maximize"><i class="fa-solid fa-square"></i></button>
+                    <button class="win-btn close"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                </div>
+                <!-- File Manager Specific Content -->
+                <div class="fm-layout">
+                    <div class="fm-toolbar">
+                        <button class="fm-btn mobile-only" id="btn-sidebar-toggle"><i
+                                class="fa-solid fa-bars"></i></button>
+                        <button class="fm-btn" id="btn-back"><i class="fa-solid fa-arrow-left"></i></button>
+                        <button class="fm-btn" id="btn-refresh"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button class="fm-btn" id="btn-view-mode" title="Toggle View Mode"><i
+                                class="fa-solid fa-images"></i></button>
+                        <div class="fm-address-bar">
+                            <input type="text" readonly value="D:/" id="address-input">
+                        </div>
+                        <button class="fm-btn" id="btn-upload"><i class="fa-solid fa-upload"></i> Upload</button>
+                        <button class="fm-btn" id="btn-new-folder"><i class="fa-solid fa-folder-plus"></i> New
+                            Folder</button>
+                        <button class="fm-btn" id="btn-rename" disabled><i class="fa-solid fa-pen-to-square"></i>
+                            Rename</button>
+                        <button class="fm-btn" id="btn-delete" disabled><i class="fa-solid fa-trash"></i>
+                            Delete</button>
+                        <input type="file" id="file-upload-input" style="display: none;">
+                    </div>
+                    <div class="fm-body">
+                        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+                        <div class="fm-sidebar" id="fm-sidebar">
+                            <div class="sidebar-item active" data-path=""><i class="fa-solid fa-hard-drive"></i> D:/CDZ
+                            </div>
+                            <div class="sidebar-item" data-path="5分钟"><i class="fa-solid fa-image"></i> 5分钟</div>
+                            <div class="sidebar-item" data-path="课件"><i class="fa-solid fa-book-open"></i> 课件</div>
+                            <div class="sidebar-item" data-path="练习"><i class="fa-solid fa-music"></i> 练习</div>
+                            <div class="sidebar-item" data-path="视频"><i class="fa-solid fa-film"></i> 视频</div>
+                        </div>
+                        <div class="fm-files-view" id="file-list">
+                            <!-- Files will be injected here -->
+                        </div>
+                    </div>
+                    <div class="fm-statusbar">
+                        <span id="status-count">0 items</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js?v=2"></script>
+</body>
+
+</html>

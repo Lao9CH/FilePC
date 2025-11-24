@@ -1,0 +1,31 @@
+/* Thumbnail Styles */
+.file-item .file-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 4px;
+    object-fit: cover;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.file-item:hover .file-thumb {
+    transform: scale(1.05);
+}
+
+/* Loading placeholder */
+.file-item .file-thumb.loading {
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-item .file-thumb.loading::after {
+    content: '\f1c5';
+    /* fa-file-image */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: #cbd5e1;
+    font-size: 24px;
+}
