@@ -491,8 +491,51 @@ function initFileManager(win, initialPath = '') {
                 method: 'POST',
                 body: formData
             }).then(() => {
+                showToast('文件上传成功', 'success');
                 loadFiles(currentPath);
                 fileUploadInput.value = ''; // reset
+            }).catch(err => {
+                showToast('上传失败', 'error');
+                console.error(err);
+            });
+        }
+    });
+
+    // Drag and Drop Upload
+    fileListEl.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fileListEl.classList.add('drag-over');
+    });
+
+    fileListEl.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fileListEl.classList.remove('drag-over');
+    });
+
+    fileListEl.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fileListEl.classList.remove('drag-over');
+
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            // Upload all dropped files
+            Array.from(files).forEach(file => {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch(`/api/upload?path=${encodeURIComponent(currentPath)}`, {
+                    method: 'POST',
+                    body: formData
+                }).then(() => {
+                    showToast(`${file.name} 上传成功`, 'success');
+                    loadFiles(currentPath);
+                }).catch(err => {
+                    showToast(`${file.name} 上传失败`, 'error');
+                    console.error(err);
+                });
             });
         }
     });
@@ -592,11 +635,12 @@ function openPreview(file, allFiles = []) {
         exitFullscreenBtn.className = 'exit-fullscreen-btn';
         exitFullscreenBtn.innerHTML = '<i class="fa-solid fa-compress"></i> 退出全屏';
         exitFullscreenBtn.addEventListener('click', () => {
-            // Reset Zoom
+            // Reset Zoom and Rotation
             zoomLevel = 1;
+            rotation = 0;
             translateX = 0;
             translateY = 0;
-            updateZoom();
+            updateTransform();
 
             if (document.exitFullscreen) {
                 document.exitFullscreen();
@@ -612,36 +656,54 @@ function openPreview(file, allFiles = []) {
         const zoomControls = document.createElement('div');
         zoomControls.className = 'zoom-controls';
 
+        const rotateLeftBtn = document.createElement('button');
+        rotateLeftBtn.className = 'zoom-btn';
+        rotateLeftBtn.innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
+        rotateLeftBtn.title = '向左旋转';
+
+        const rotateRightBtn = document.createElement('button');
+        rotateRightBtn.className = 'zoom-btn';
+        rotateRightBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i>';
+        rotateRightBtn.title = '向右旋转';
+
         const zoomInBtn = document.createElement('button');
         zoomInBtn.className = 'zoom-btn';
         zoomInBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus"></i>';
+        zoomInBtn.title = '放大';
 
         const zoomOutBtn = document.createElement('button');
         zoomOutBtn.className = 'zoom-btn';
         zoomOutBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass-minus"></i>';
+        zoomOutBtn.title = '缩小';
 
         const zoomResetBtn = document.createElement('button');
         zoomResetBtn.className = 'zoom-btn';
-        zoomResetBtn.innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
+        zoomResetBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i>';
+        zoomResetBtn.title = '重置';
 
+        zoomControls.appendChild(rotateLeftBtn);
+        zoomControls.appendChild(rotateRightBtn);
         zoomControls.appendChild(zoomInBtn);
         zoomControls.appendChild(zoomOutBtn);
         zoomControls.appendChild(zoomResetBtn);
         previewContainer.appendChild(zoomControls);
 
-        // Zoom Logic
+        // Zoom and Rotation Logic
         let zoomLevel = 1;
+        let rotation = 0;
         let isDragging = false;
         let startX, startY, translateX = 0, translateY = 0;
 
-        function updateZoom() {
-            img.style.transform = `scale(${zoomLevel}) translate(${translateX / zoomLevel}px, ${translateY / zoomLevel}px)`;
+        function updateTransform() {
+            img.style.transform = `rotate(${rotation}deg) scale(${zoomLevel}) translate(${translateX / zoomLevel}px, ${translateY / zoomLevel}px)`;
             img.style.cursor = zoomLevel > 1 ? 'grab' : 'zoom-in';
         }
 
-        zoomInBtn.onclick = (e) => { e.stopPropagation(); zoomLevel += 0.5; updateZoom(); };
-        zoomOutBtn.onclick = (e) => { e.stopPropagation(); zoomLevel = Math.max(1, zoomLevel - 0.5); if (zoomLevel === 1) { translateX = 0; translateY = 0; } updateZoom(); };
-        zoomResetBtn.onclick = (e) => { e.stopPropagation(); zoomLevel = 1; translateX = 0; translateY = 0; updateZoom(); };
+        rotateLeftBtn.onclick = (e) => { e.stopPropagation(); rotation -= 90; updateTransform(); };
+        rotateRightBtn.onclick = (e) => { e.stopPropagation(); rotation += 90; updateTransform(); };
+        zoomInBtn.onclick = (e) => { e.stopPropagation(); zoomLevel += 0.5; updateTransform(); };
+        zoomOutBtn.onclick = (e) => { e.stopPropagation(); zoomLevel = Math.max(1, zoomLevel - 0.5); if (zoomLevel === 1) { translateX = 0; translateY = 0; } updateTransform(); };
+        zoomResetBtn.onclick = (e) => { e.stopPropagation(); zoomLevel = 1; rotation = 0; translateX = 0; translateY = 0; updateTransform(); };
 
         // Mouse Wheel Zoom
         img.addEventListener('wheel', (e) => {
@@ -653,7 +715,7 @@ function openPreview(file, allFiles = []) {
                     zoomLevel = Math.max(1, zoomLevel - 0.2);
                 }
                 if (zoomLevel === 1) { translateX = 0; translateY = 0; }
-                updateZoom();
+                updateTransform();
             }
         });
 
@@ -672,7 +734,7 @@ function openPreview(file, allFiles = []) {
             if (isDragging && zoomLevel > 1) {
                 translateX = e.clientX - startX;
                 translateY = e.clientY - startY;
-                updateZoom();
+                updateTransform();
             }
         });
 
@@ -708,11 +770,12 @@ function openPreview(file, allFiles = []) {
             if (index >= imageFiles.length) index = 0;
             currentIndex = index;
 
-            // Reset Zoom
+            // Reset Zoom and Rotation
             zoomLevel = 1;
+            rotation = 0;
             translateX = 0;
             translateY = 0;
-            updateZoom();
+            updateTransform();
 
             const nextFile = imageFiles[currentIndex];
             img.src = `/api/view?path=${encodeURIComponent(nextFile.path)}`;
