@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="preview.css">
     <link rel="stylesheet" href="thumbnail.css">
+    <link rel="stylesheet" href="widget-styles-patch.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -35,17 +36,35 @@
             <div class="icon-label">练习</div>
         </div>
 
+        <!-- Random Image Widget -->
+        <div id="random-image-widget" class="random-image-widget">
+            <div class="widget-header">
+                <button class="widget-nav-btn widget-nav-prev" onclick="previousImage()">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <div class="widget-title">课前5分钟</div>
+                <button class="widget-nav-btn widget-nav-next" onclick="nextImage()">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <button class="widget-play-btn" id="widget-play-btn" onclick="toggleAutoPlay()">
+                    <i class="fa-solid fa-pause"></i>
+                </button>
+                <button class="widget-size-btn" id="widget-size-btn" onclick="toggleWidgetSize()">
+                    <i class="fa-solid fa-compress"></i>
+                </button>
+                <button class="widget-close-btn"
+                    onclick="document.getElementById('random-image-widget').style.display='none'">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="widget-content" onclick="openFolder('5分钟')">
+                <div id="random-image-bg" class="widget-image-bg"></div>
+                <img id="random-image-display" src="" alt="Loading...">
+            </div>
+        </div>
+
         <!-- Windows Container -->
         <div id="windows-area"></div>
-    </div>
-
-    <!-- Taskbar -->
-    <div id="taskbar">
-        <div class="start-btn"><i class="fa-brands fa-windows"></i></div>
-        <div id="taskbar-apps"></div>
-        <div class="taskbar-right">
-            <div id="clock">12:00</div>
-        </div>
     </div>
 
     <div id="toast-container" class="toast-container"></div>
@@ -110,7 +129,7 @@
         </div>
     </template>
 
-    <script src="app.js?v=2"></script>
+    <script src="app.js?v=8"></script>
 </body>
 
 </html>

@@ -4,6 +4,138 @@
 let historyStack = [];
 let historyIndex = -1;
 
+// Random Image Widget Logic
+let currentImageIndex = 0;
+let imageFiles = [];
+let autoPlayInterval = null;
+let isAutoPlaying = true;
+let isCompact = false;
+
+function initRandomImageWidget() {
+    const widgetImg = document.getElementById('random-image-display');
+    if (!widgetImg) return;
+
+    const folderPath = '5分钟';
+
+    function fetchImages() {
+        fetch(`/api/files?path=${encodeURIComponent(folderPath)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error fetching random images:', data.error);
+                    return;
+                }
+                imageFiles = data.files.filter(f => {
+                    const ext = f.name.split('.').pop().toLowerCase();
+                    return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext);
+                });
+
+                if (imageFiles.length > 0) {
+                    currentImageIndex = Math.floor(Math.random() * imageFiles.length);
+                    updateCurrentImage();
+                    startAutoPlay();
+                } else {
+                    widgetImg.alt = 'No images found';
+                }
+            })
+            .catch(err => console.error('Error fetching random images:', err));
+    }
+
+    fetchImages();
+}
+
+function startAutoPlay() {
+    if (autoPlayInterval) clearInterval(autoPlayInterval);
+    autoPlayInterval = setInterval(() => {
+        currentImageIndex = (currentImageIndex + 1) % imageFiles.length;
+        updateCurrentImage();
+    }, 10000);
+    isAutoPlaying = true;
+    updatePlayButton();
+}
+
+function stopAutoPlay() {
+    if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = null;
+    }
+    isAutoPlaying = false;
+    updatePlayButton();
+}
+
+function toggleAutoPlay() {
+    if (isAutoPlaying) {
+        stopAutoPlay();
+    } else {
+        startAutoPlay();
+    }
+}
+
+function updatePlayButton() {
+    const playBtn = document.getElementById('widget-play-btn');
+    if (!playBtn) return;
+
+    const icon = playBtn.querySelector('i');
+    if (isAutoPlaying) {
+        icon.className = 'fa-solid fa-pause';
+        playBtn.classList.remove('paused');
+    } else {
+        icon.className = 'fa-solid fa-play';
+        playBtn.classList.add('paused');
+    }
+}
+
+function previousImage() {
+    if (imageFiles.length === 0) return;
+    currentImageIndex = (currentImageIndex - 1 + imageFiles.length) % imageFiles.length;
+    updateCurrentImage();
+}
+
+function nextImage() {
+    if (imageFiles.length === 0) return;
+    currentImageIndex = (currentImageIndex + 1) % imageFiles.length;
+    updateCurrentImage();
+}
+
+function updateCurrentImage() {
+    const widgetImg = document.getElementById('random-image-display');
+    if (!widgetImg || imageFiles.length === 0) return;
+
+    const file = imageFiles[currentImageIndex];
+    const newImg = new Image();
+    newImg.onload = () => {
+        widgetImg.src = newImg.src;
+        const bgDiv = document.getElementById('random-image-bg');
+        if (bgDiv) {
+            bgDiv.style.backgroundImage = `url('${newImg.src}')`;
+        }
+    };
+    newImg.src = `/api/view?path=${encodeURIComponent(file.path)}`;
+}
+
+function toggleWidgetSize() {
+    const widget = document.getElementById('random-image-widget');
+    const sizeBtn = document.getElementById('widget-size-btn');
+    if (!widget || !sizeBtn) return;
+
+    isCompact = !isCompact;
+    const icon = sizeBtn.querySelector('i');
+
+    if (isCompact) {
+        widget.classList.add('compact');
+        icon.className = 'fa-solid fa-expand';
+    } else {
+        widget.classList.remove('compact');
+        icon.className = 'fa-solid fa-compress';
+    }
+}
+
+// Initialize Widget on Load
+document.addEventListener('DOMContentLoaded', () => {
+    initRandomImageWidget();
+});
+
+
 // Clock
 function updateClock() {
     const now = new Date();
