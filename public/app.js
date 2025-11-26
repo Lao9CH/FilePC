@@ -133,16 +133,65 @@ function toggleWidgetSize() {
 // Initialize Widget on Load
 document.addEventListener('DOMContentLoaded', () => {
     initRandomImageWidget();
+    initWidgetDrag();
 });
+
+function initWidgetDrag() {
+    const widget = document.getElementById('random-image-widget');
+    if (!widget) return;
+
+    const header = widget.querySelector('.widget-header');
+    if (!header) return;
+
+    let isDragging = false;
+    let startX, startY, initialLeft, initialTop;
+
+    header.addEventListener('mousedown', (e) => {
+        // Prevent drag if clicking buttons
+        if (e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
+
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+
+        // Get current computed position
+        const rect = widget.getBoundingClientRect();
+
+        // Switch to absolute positioning based on current visual position
+        widget.style.transform = 'none';
+        widget.style.left = `${rect.left}px`;
+        widget.style.top = `${rect.top}px`;
+
+        initialLeft = rect.left;
+        initialTop = rect.top;
+
+        header.style.cursor = 'grabbing';
+
+        // Add temporary overlay to prevent iframe interference if any
+        document.body.style.userSelect = 'none';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+
+        widget.style.left = `${initialLeft + dx}px`;
+        widget.style.top = `${initialTop + dy}px`;
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        header.style.cursor = 'move';
+        document.body.style.userSelect = '';
+    });
+}
 
 
 // Clock
-function updateClock() {
-    const now = new Date();
-    document.getElementById('clock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-}
-setInterval(updateClock, 1000);
-updateClock();
 
 // Open specific folder
 function openFolder(folderPath) {

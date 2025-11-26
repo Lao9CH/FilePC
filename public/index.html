@@ -9,20 +9,28 @@
     <link rel="stylesheet" href="preview.css">
     <link rel="stylesheet" href="thumbnail.css">
     <link rel="stylesheet" href="widget-styles-patch.css">
+    <link rel="stylesheet" href="geogebra.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div id="desktop">
+        <!-- Right Side Icons -->
+        <a href="https://www.geogebra.org/classic" target="_blank" class="geogebra-link" title="打开 GeoGebra">
+            <i class="fa-solid fa-calculator"></i>
+            <span>GeoGebra</span>
+        </a>
+        <a href="https://www.zhixue.com" target="_blank" class="zhixue-link" title="打开智学网">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>智学网</span>
+        </a>
+
         <!-- Desktop Icons -->
         <div class="desktop-icon" onclick="openFileManager()">
             <div class="icon-img"><i class="fa-solid fa-computer"></i></div>
             <div class="icon-label">My Computer</div>
         </div>
-        <div class="desktop-icon" onclick="window.open('https://www.zhixue.com', '_blank')">
-            <div class="icon-img"><i class="fa-solid fa-graduation-cap"></i></div>
-            <div class="icon-label">智学网</div>
-        </div>
+
         <div class="desktop-icon" onclick="openFolder('5分钟')">
             <div class="icon-img"><i class="fa-solid fa-clock"></i></div>
             <div class="icon-label">5分钟</div>

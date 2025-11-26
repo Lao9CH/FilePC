@@ -1,0 +1,139 @@
+/* Right Side Desktop Icons - Matching Left Side Style */
+
+/* GeoGebra Link */
+.geogebra-link {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 999;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.geogebra-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.geogebra-link:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.geogebra-link i {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    color: white;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.geogebra-link span {
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Zhixue Link - Below GeoGebra */
+.zhixue-link {
+    position: fixed;
+    top: 140px;
+    /* GeoGebra height (30 + 90 + 20 gap) */
+    right: 30px;
+    z-index: 999;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.zhixue-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.zhixue-link:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.zhixue-link i {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    color: white;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.zhixue-link span {
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .geogebra-link {
+        top: 20px;
+        right: 20px;
+    }
+
+    .zhixue-link {
+        top: 120px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .geogebra-link {
+        width: 70px;
+    }
+
+    .geogebra-link i {
+        width: 48px;
+        height: 48px;
+        font-size: 36px;
+    }
+
+    .geogebra-link span {
+        font-size: 12px;
+    }
+
+    .zhixue-link {
+        width: 70px;
+    }
+
+    .zhixue-link i {
+        width: 48px;
+        height: 48px;
+        font-size: 36px;
+    }
+
+    .zhixue-link span {
+        font-size: 12px;
+    }
+}
